@@ -1,9 +1,19 @@
-import java.util.Random;
+import java.util.Scanner;
 
-public class TicTacToe{
+public class TicTacToe {
 
-    
-    static void displayBoard(char[] board) {
+    static char[] board = {
+            '0',
+            ' ', ' ', ' ',
+            ' ', ' ', ' ',
+            ' ', ' ', ' '
+    };
+
+    static Scanner sc = new Scanner(System.in);
+
+    // Display Board
+    static void displayBoard() {
+
         System.out.println();
 
         System.out.println(" " + board[1] + " | " + board[2] + " | " + board[3]);
@@ -15,47 +25,68 @@ public class TicTacToe{
         System.out.println();
     }
 
-    
-    static boolean isValidMove(char[] board, int position) {
-        return board[position] == ' ';
-    }
+    // Player Move
+    static void playerMove() {
 
-    
-    static void computerMove(char[] board) {
-
-        Random random = new Random();
         int position;
 
-        
         do {
-            
-            position = random.nextInt(9) + 1;
+            System.out.print("Enter position (1-9): ");
+            position = sc.nextInt();
 
-        } while (!isValidMove(board, position));
+        } while (position < 1 || position > 9 || board[position] != ' ');
 
-       
-        board[position] = 'O';
+        board[position] = 'X';
+    }
 
-        System.out.println("Computer placed O at position " + position);
+    // Check Winning Condition
+    static boolean checkWin(char symbol) {
+
+        // Rows
+        if ((board[1] == symbol && board[2] == symbol && board[3] == symbol) ||
+            (board[4] == symbol && board[5] == symbol && board[6] == symbol) ||
+            (board[7] == symbol && board[8] == symbol && board[9] == symbol)) {
+
+            return true;
+        }
+
+        // Columns
+        if ((board[1] == symbol && board[4] == symbol && board[7] == symbol) ||
+            (board[2] == symbol && board[5] == symbol && board[8] == symbol) ||
+            (board[3] == symbol && board[6] == symbol && board[9] == symbol)) {
+
+            return true;
+        }
+
+        // Diagonals
+        if ((board[1] == symbol && board[5] == symbol && board[9] == symbol) ||
+            (board[3] == symbol && board[5] == symbol && board[7] == symbol)) {
+
+            return true;
+        }
+
+        return false;
     }
 
     public static void main(String[] args) {
 
-      
-        char[] board = {
-                '0',
-                ' ', ' ', ' ',
-                ' ', ' ', ' ',
-                ' ', ' ', ' '
-        };
+        System.out.println("=== TIC TAC TOE ===");
 
-        System.out.println("Initial Board:");
-        displayBoard(board);
+        displayBoard();
 
-        
-        computerMove(board);
+        while (true) {
 
-        System.out.println("Board After Computer Move:");
-        displayBoard(board);
+            playerMove();
+
+            displayBoard();
+
+            // Check Winner
+            if (checkWin('X')) {
+
+                System.out.println("Player Wins!");
+
+                break;
+            }
+        }
     }
 }
