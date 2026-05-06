@@ -1,61 +1,32 @@
-import java.util.Random;
+public class TicTacToe {
 
-public class TicTacToe{
-
-    
-    static void displayBoard(char[] board) {
-        System.out.println();
-
-        System.out.println(" " + board[1] + " | " + board[2] + " | " + board[3]);
-        System.out.println("---|---|---");
-        System.out.println(" " + board[4] + " | " + board[5] + " | " + board[6]);
-        System.out.println("---|---|---");
-        System.out.println(" " + board[7] + " | " + board[8] + " | " + board[9]);
-
-        System.out.println();
-    }
-
-    
-    static boolean isValidMove(char[] board, int position) {
-        return board[position] == ' ';
-    }
-
-    
-    static void computerMove(char[] board) {
-
-        Random random = new Random();
-        int position;
+    public static boolean isDraw(char[][] board) {
+        boolean isBoardFull = true;
 
         
-        do {
-            
-            position = random.nextInt(9) + 1;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (board[i][j] == ' ') { // Empty cell
+                    isBoardFull = false;
+                    break;
+                }
+            }
+        }
 
-        } while (!isValidMove(board, position));
-
-       
-        board[position] = 'O';
-
-        System.out.println("Computer placed O at position " + position);
+        return isBoardFull;
     }
 
     public static void main(String[] args) {
-
-      
-        char[] board = {
-                '0',
-                ' ', ' ', ' ',
-                ' ', ' ', ' ',
-                ' ', ' ', ' '
+        char[][] board = {
+            {'X', 'O', 'X'},
+            {'X', 'O', 'O'},
+            {'O', 'X', 'X'}
         };
 
-        System.out.println("Initial Board:");
-        displayBoard(board);
-
-        
-        computerMove(board);
-
-        System.out.println("Board After Computer Move:");
-        displayBoard(board);
+        if (isDraw(board)) {
+            System.out.println("Game is a Draw!");
+        } else {
+            System.out.println("Game is still ongoing.");
+        }
     }
 }
